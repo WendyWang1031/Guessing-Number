@@ -24,13 +24,20 @@
     // Event listener
     guessSubmit.addEventListener("click", checkGuess);
 
+    // 在全域環境宣告userGuessTimes使用者猜測次數為0
+    let userGuessTimes = 0;
+
     // Guess function
     function checkGuess() {
       const userGuess = parseInt(guessField.value);
       console.log("userGuess: " + userGuess);
 
+      userGuessTimes = userGuessTimes + 1;
+      console.log("userGuessTimes: " + userGuessTimes);
+
       if (userGuess === targetNumber) {
-        message.textContent = `恭喜你，你猜對了！`;
+        message.textContent =
+          "恭喜你，你猜對了！你這次猜了" + userGuessTimes + "次哦～";
         message.style.color = "green";
         guessSubmit.disabled = true;
       } else if (userGuess < targetNumber) {
