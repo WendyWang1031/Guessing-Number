@@ -35,7 +35,7 @@
       userGuessTimes = userGuessTimes + 1;
       console.log("userGuessTimes: " + userGuessTimes);
 
-      if (userGuess === targetNumber) {
+      if (userGuess === targetNumber && userGuessTimes <= 5) {
         message.textContent =
           "恭喜你，你猜對了！你這次猜了" +
           userGuessTimes +
@@ -45,12 +45,16 @@
           targetNumber;
         message.style.color = "green";
         guessSubmit.disabled = true;
-      } else if (userGuess < targetNumber) {
+      } else if (userGuess < targetNumber && userGuessTimes < 5) {
         message.textContent = "太小了，再試一次。";
         message.style.color = "red";
-      } else {
+      } else if (userGuess > targetNumber && userGuessTimes < 5) {
         message.textContent = "太大了，再試一次。";
         message.style.color = "red";
+      } else {
+        message.textContent = "You Failed! " + "答案是" + targetNumber;
+        message.style.color = "red";
+        guessSubmit.disabled = true;
       }
 
       guessField.value = "";
