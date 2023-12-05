@@ -7,37 +7,55 @@
   <body>
     <h1>猜數字遊戲</h1>
     <p>1 到 100 之間的數字，你猜是多少？</p>
-    <input type="text" id="guessField" />
+    <input type="text" id="guessField" required />
     <input type="submit" value="猜!" id="guessSubmit" />
     <input type="submit" value="揭曉答案" id="finalAnswer" />
+    <input type="submit" value="再玩一次" id="playAgain" />
     <p class="message"></p>
     <p class="finalMassage"></p>
   </body>
   <script>
     // Random number
-    const targetNumber = Math.floor(Math.random() * 100) + 1;
+    let targetNumber = Math.floor(Math.random() * 100) + 1;
     console.log("answer: " + targetNumber);
+
+    // 在全域環境宣告userGuessTimes使用者猜測次數為0
+    let userGuessTimes = 0;
 
     // Get element
     const guessField = document.getElementById("guessField");
     const guessSubmit = document.getElementById("guessSubmit");
     const message = document.querySelector(".message");
 
-    // Event listener
+    //  提交答案的 Event listener
     guessSubmit.addEventListener("click", checkGuess);
 
-    //揭曉答案
+    // 揭曉答案
     const finalMassage = document.querySelector(".finalMassage");
     const finalAnswer = document.getElementById("finalAnswer");
     finalAnswer.addEventListener("click", showFinalMassage);
 
-    //showFinalMassage函數是呈現揭曉答案
+    // showFinalMassage函數是呈現揭曉答案
     function showFinalMassage() {
       finalMassage.textContent = "揭曉答案是：" + targetNumber;
     }
 
-    // 在全域環境宣告userGuessTimes使用者猜測次數為0
-    let userGuessTimes = 0;
+    // 再玩一次
+    const playAgain = document.getElementById("playAgain");
+    playAgain.addEventListener("click", resetGame);
+
+    // resetGame 函數 重置遊戲
+    function resetGame() {
+      targetNumber = Math.floor(Math.random() * 100) + 1;
+      console.log("answer: " + targetNumber);
+      userGuessTimes = 0;
+      message.textContent = "";
+      finalMassage.textContent = "";
+      guessSubmit.disabled = false;
+
+      guessField.value = "";
+      guessField.focus();
+    }
 
     // Guess function
     function checkGuess() {
