@@ -9,7 +9,9 @@
     <p>1 到 100 之間的數字，你猜是多少？</p>
     <input type="text" id="guessField" />
     <input type="submit" value="猜!" id="guessSubmit" />
+    <input type="submit" value="揭曉答案" id="finalAnswer" />
     <p class="message"></p>
+    <p class="finalMassage"></p>
   </body>
   <script>
     // Random number
@@ -24,6 +26,16 @@
     // Event listener
     guessSubmit.addEventListener("click", checkGuess);
 
+    //揭曉答案
+    const finalMassage = document.querySelector(".finalMassage");
+    const finalAnswer = document.getElementById("finalAnswer");
+    finalAnswer.addEventListener("click", showFinalMassage);
+
+    //showFinalMassage函數是呈現揭曉答案
+    function showFinalMassage() {
+      finalMassage.textContent = "揭曉答案是：" + targetNumber;
+    }
+
     // 在全域環境宣告userGuessTimes使用者猜測次數為0
     let userGuessTimes = 0;
 
@@ -37,12 +49,7 @@
 
       if (userGuess === targetNumber && userGuessTimes <= 5) {
         message.textContent =
-          "恭喜你，你猜對了！你這次猜了" +
-          userGuessTimes +
-          "次哦～" +
-          "\n" +
-          "揭曉答案是" +
-          targetNumber;
+          "恭喜你，你猜對了！你這次猜了" + userGuessTimes + "次哦～";
         message.style.color = "green";
         guessSubmit.disabled = true;
       } else if (userGuess < targetNumber && userGuessTimes < 5) {
