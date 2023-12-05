@@ -37,7 +37,12 @@
 
       if (userGuess === targetNumber) {
         message.textContent =
-          "恭喜你，你猜對了！你這次猜了" + userGuessTimes + "次哦～";
+          "恭喜你，你猜對了！你這次猜了" +
+          userGuessTimes +
+          "次哦～" +
+          "\n" +
+          "揭曉答案是" +
+          targetNumber;
         message.style.color = "green";
         guessSubmit.disabled = true;
       } else if (userGuess < targetNumber) {
