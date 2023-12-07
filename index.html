@@ -6,7 +6,12 @@
   </head>
   <body>
     <h1>猜數字遊戲</h1>
-    <p>1 到 100 之間的數字，你猜是多少？</p>
+    <p>
+      <span class="lowerBound">1</span>
+      到
+      <span class="upperBound">100</span>
+      之間的數字，你猜是多少？
+    </p>
     <input type="text" id="guessField" required />
     <input type="submit" value="猜!" id="guessSubmit" />
     <input type="submit" value="揭曉答案" id="finalAnswer" />
@@ -15,27 +20,29 @@
     <p class="finalMassage"></p>
   </body>
   <script>
-    // Random number
+    //  Random number
     let targetNumber = Math.floor(Math.random() * 100) + 1;
     console.log("answer: " + targetNumber);
 
-    // 在全域環境宣告userGuessTimes使用者猜測次數為0
+    //  在全域環境宣告userGuessTimes使用者猜測次數為0
     let userGuessTimes = 0;
 
-    // Get element
+    //  Get element
     const guessField = document.getElementById("guessField");
     const guessSubmit = document.getElementById("guessSubmit");
     const message = document.querySelector(".message");
+    const lowerBound = document.querySelector(".lowerBound");
+    const upperBound = document.querySelector(".upperBound");
 
     //  提交答案的 Event listener
     guessSubmit.addEventListener("click", checkGuess);
 
-    // 揭曉答案
+    //  揭曉答案
     const finalMassage = document.querySelector(".finalMassage");
     const finalAnswer = document.getElementById("finalAnswer");
     finalAnswer.addEventListener("click", showFinalMassage);
 
-    // showFinalMassage函數是呈現揭曉答案
+    //  showFinalMassage函數是呈現揭曉答案
     function showFinalMassage() {
       finalMassage.textContent = "揭曉答案是：" + targetNumber;
     }
@@ -52,6 +59,8 @@
       message.textContent = "";
       finalMassage.textContent = "";
       guessSubmit.disabled = false;
+      lowerBound.textContent = 1;
+      upperBound.textContent = 100;
 
       guessField.value = "";
       guessField.focus();
@@ -73,9 +82,11 @@
       } else if (userGuess < targetNumber && userGuessTimes < 5) {
         message.textContent = "太小了，再試一次。";
         message.style.color = "red";
+        lowerBound.textContent = userGuess;
       } else if (userGuess > targetNumber && userGuessTimes < 5) {
         message.textContent = "太大了，再試一次。";
         message.style.color = "red";
+        upperBound.textContent = userGuess;
       } else {
         message.textContent = "You Failed! " + "答案是" + targetNumber;
         message.style.color = "red";
