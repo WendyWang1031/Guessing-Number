@@ -95,6 +95,7 @@
         message.textContent = "You Failed! " + "答案是" + targetNumber;
         message.style.color = "red";
         guessSubmit.disabled = true;
+        setTimeout(resetGame, 5000);
       }
 
       guessField.value = "";
