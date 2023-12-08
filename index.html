@@ -19,6 +19,7 @@
       <input type="submit" value="再玩一次" id="playAgain" />
       <p class="message"></p>
       <p class="finalMassage"></p>
+      <p class="second"></p>
     </form>
   </body>
   <script>
@@ -35,23 +36,20 @@
     const message = document.querySelector(".message");
     const lowerBound = document.querySelector(".lowerBound");
     const upperBound = document.querySelector(".upperBound");
-
-    //  提交答案的 Event listener
-    guessSubmit.addEventListener("click", checkGuess);
-
-    //  揭曉答案
     const finalMassage = document.querySelector(".finalMassage");
     const finalAnswer = document.getElementById("finalAnswer");
+    const playAgain = document.getElementById("playAgain");
+    const second = document.querySelector(".second");
+
+    // Event listener
+    guessSubmit.addEventListener("click", checkGuess);
     finalAnswer.addEventListener("click", showFinalMassage);
+    playAgain.addEventListener("click", resetGame);
 
     //  showFinalMassage函數是呈現揭曉答案
     function showFinalMassage() {
       finalMassage.textContent = "揭曉答案是：" + targetNumber;
     }
-
-    // 再玩一次
-    const playAgain = document.getElementById("playAgain");
-    playAgain.addEventListener("click", resetGame);
 
     // resetGame 函數 重置遊戲
     function resetGame() {
@@ -63,6 +61,7 @@
       guessSubmit.disabled = false;
       lowerBound.textContent = 1;
       upperBound.textContent = 100;
+      second.textContent = "";
 
       guessField.value = "";
       guessField.focus();
@@ -73,16 +72,17 @@
       const userGuess = parseInt(guessField.value);
       console.log("userGuess: " + userGuess);
 
-      userGuessTimes = userGuessTimes + 1;
+      userGuessTimes++;
       console.log("userGuessTimes: " + userGuessTimes);
       //檢查是否輸入文字
       if (isNaN(userGuess)) {
         alert("請輸入有效的數字！");
-        return false; // 阻止表單的預設提交行為
+        return false;
       } else if (userGuess === targetNumber && userGuessTimes <= 5) {
         message.textContent = `恭喜你，你猜對了！你這次猜了 ${userGuessTimes}  次哦～`;
         message.style.color = "green";
         guessSubmit.disabled = true;
+        countDownAndReset();
       } else if (userGuess < targetNumber && userGuessTimes < 5) {
         message.textContent = "太小了，再試一次。";
         message.style.color = "red";
@@ -95,11 +95,34 @@
         message.textContent = "You Failed! " + "答案是" + targetNumber;
         message.style.color = "red";
         guessSubmit.disabled = true;
-        setTimeout(resetGame, 5000);
+        countDownAndReset();
       }
 
       guessField.value = "";
       guessField.focus();
+    }
+
+    //更改瀏覽器的倒數數字文本
+    function display(result) {
+      second.textContent = result;
+    }
+    //倒數計時器去呼叫display的函數
+    function delayedDisplay(string, seconds, callback) {
+      setTimeout(() => {
+        callback(string);
+      }, seconds);
+    }
+
+    //讓倒數的函數相對應該有的是值
+    function countDownAndReset() {
+      delayedDisplay("倒數計時5秒即將開啟下一局", 0, display);
+      delayedDisplay("倒數計時4秒即將開啟下一局", 1000, display);
+      delayedDisplay("倒數計時3秒即將開啟下一局", 2000, display);
+      delayedDisplay("倒數計時2秒即將開啟下一局", 3000, display);
+      delayedDisplay("倒數計時1秒即將開啟下一局", 4000, () => {
+        second.textContent = "倒數完畢，即將開啟下一局遊戲";
+        resetGame();
+      });
     }
   </script>
 </html>
