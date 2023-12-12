@@ -18,7 +18,7 @@
       <input type="submit" value="揭曉答案" id="finalAnswer" />
       <input type="submit" value="再玩一次" id="playAgain" />
       <p class="message"></p>
-      <p class="finalMassage"></p>
+      <p class="finalMessage"></p>
       <p class="second"></p>
     </form>
   </body>
@@ -36,19 +36,19 @@
     const message = document.querySelector(".message");
     const lowerBound = document.querySelector(".lowerBound");
     const upperBound = document.querySelector(".upperBound");
-    const finalMassage = document.querySelector(".finalMassage");
+    const finalMessage = document.querySelector(".finalMessage");
     const finalAnswer = document.getElementById("finalAnswer");
     const playAgain = document.getElementById("playAgain");
     const second = document.querySelector(".second");
 
     // Event listener
     guessSubmit.addEventListener("click", checkGuess);
-    finalAnswer.addEventListener("click", showFinalMassage);
+    finalAnswer.addEventListener("click", showFinalMessage);
     playAgain.addEventListener("click", resetGame);
 
     //  showFinalMassage函數是呈現揭曉答案
-    function showFinalMassage() {
-      finalMassage.textContent = "揭曉答案是：" + targetNumber;
+    function showFinalMessage() {
+      finalMessage.textContent = "揭曉答案是：" + targetNumber;
     }
 
     // resetGame 函數 重置遊戲
@@ -57,7 +57,7 @@
       console.log("answer: " + targetNumber);
       userGuessTimes = 0;
       message.textContent = "";
-      finalMassage.textContent = "";
+      finalMessage.textContent = "";
       guessSubmit.disabled = false;
       lowerBound.textContent = 1;
       upperBound.textContent = 100;
@@ -92,7 +92,7 @@
         message.style.color = "red";
         upperBound.textContent = userGuess;
       } else {
-        message.textContent = "You Failed! " + "答案是" + targetNumber;
+        message.textContent = `You Failed! 答案是 ${targetNumber}`;
         message.style.color = "red";
         guessSubmit.disabled = true;
         countDownAndReset();
