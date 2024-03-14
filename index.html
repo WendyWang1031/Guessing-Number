@@ -6,124 +6,34 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>猜數字遊戲</h1>
-    <p>
-      <span class="lowerBound">1</span>
-      到
-      <span class="upperBound">100</span>
-      之間的數字，你猜是多少？
-    </p>
-    <form onsubmit="return checkGuess();">
-      <input type="text" id="guessField" required pattern="[0-9]+" />
-      <input type="submit" value="猜!" id="guessSubmit" />
-      <input type="submit" value="揭曉答案" id="finalAnswer" />
-      <input type="submit" value="再玩一次" id="playAgain" />
-      <p class="message"></p>
-      <p class="finalMessage"></p>
-      <p class="second"></p>
-    </form>
+    <section class="guess-area">
+      <div class="area-inside">
+        <div class="title">
+          <h1>猜數字遊戲</h1>
+        </div>
+
+        <p>
+          <span class="lowerBound">1</span>
+          到
+          <span class="upperBound">100</span>
+          之間的數字，你猜是多少？
+          <br />
+          有
+          <span class="title-times">5</span>
+          次猜的機會喔！
+        </p>
+        <form onsubmit="return checkGuess();">
+          <input type="text" id="guessField" required pattern="[0-9]+" />
+          <br />
+          <input type="submit" value="猜!" id="guessSubmit" />
+          <input type="submit" value="揭曉答案" id="finalAnswer" />
+          <input type="submit" value="再玩一次" id="playAgain" />
+          <p class="message"></p>
+          <p class="finalMessage"></p>
+          <p class="second"></p>
+        </form>
+      </div>
+    </section>
   </body>
-  <script>
-    //  Random number
-    let targetNumber = Math.floor(Math.random() * 100) + 1;
-    console.log("answer: " + targetNumber);
-
-    //  在全域環境宣告userGuessTimes使用者猜測次數為0
-    let userGuessTimes = 0;
-
-    //  Get element
-    const guessField = document.getElementById("guessField");
-    const guessSubmit = document.getElementById("guessSubmit");
-    const message = document.querySelector(".message");
-    const lowerBound = document.querySelector(".lowerBound");
-    const upperBound = document.querySelector(".upperBound");
-    const finalMessage = document.querySelector(".finalMessage");
-    const finalAnswer = document.getElementById("finalAnswer");
-    const playAgain = document.getElementById("playAgain");
-    const second = document.querySelector(".second");
-
-    // Event listener
-    guessSubmit.addEventListener("click", checkGuess);
-    finalAnswer.addEventListener("click", showFinalMessage);
-    playAgain.addEventListener("click", resetGame);
-
-    //  showFinalMassage函數是呈現揭曉答案
-    function showFinalMessage() {
-      finalMessage.textContent = "揭曉答案是：" + targetNumber;
-    }
-
-    // resetGame 函數 重置遊戲
-    function resetGame() {
-      targetNumber = Math.floor(Math.random() * 100) + 1;
-      console.log("answer: " + targetNumber);
-      userGuessTimes = 0;
-      message.textContent = "";
-      finalMessage.textContent = "";
-      guessSubmit.disabled = false;
-      lowerBound.textContent = 1;
-      upperBound.textContent = 100;
-      second.textContent = "";
-
-      guessField.value = "";
-      guessField.focus();
-    }
-
-    // Guess function
-    function checkGuess() {
-      const userGuess = parseInt(guessField.value);
-      console.log("userGuess: " + userGuess);
-
-      userGuessTimes++;
-      console.log("userGuessTimes: " + userGuessTimes);
-      //檢查是否輸入文字
-      if (isNaN(userGuess)) {
-        alert("請輸入有效的數字！");
-        return false;
-      } else if (userGuess === targetNumber && userGuessTimes <= 5) {
-        message.textContent = `恭喜你，你猜對了！你這次猜了 ${userGuessTimes}  次哦～`;
-        message.style.color = "green";
-        guessSubmit.disabled = true;
-        countDownAndReset();
-      } else if (userGuess < targetNumber && userGuessTimes < 5) {
-        message.textContent = "太小了，再試一次。";
-        message.style.color = "red";
-        lowerBound.textContent = userGuess;
-      } else if (userGuess > targetNumber && userGuessTimes < 5) {
-        message.textContent = "太大了，再試一次。";
-        message.style.color = "red";
-        upperBound.textContent = userGuess;
-      } else {
-        message.textContent = `You Failed! 答案是 ${targetNumber}`;
-        message.style.color = "red";
-        guessSubmit.disabled = true;
-        countDownAndReset();
-      }
-
-      guessField.value = "";
-      guessField.focus();
-    }
-
-    //更改瀏覽器的倒數數字文本
-    function display(result) {
-      second.textContent = result;
-    }
-    //倒數計時器去呼叫display的函數
-    function delayedDisplay(string, seconds, callback) {
-      setTimeout(() => {
-        callback(string);
-      }, seconds);
-    }
-
-    //讓倒數的函數相對應該有的是值
-    function countDownAndReset() {
-      delayedDisplay("倒數計時5秒即將開啟下一局", 0, display);
-      delayedDisplay("倒數計時4秒即將開啟下一局", 1000, display);
-      delayedDisplay("倒數計時3秒即將開啟下一局", 2000, display);
-      delayedDisplay("倒數計時2秒即將開啟下一局", 3000, display);
-      delayedDisplay("倒數計時1秒即將開啟下一局", 4000, () => {
-        second.textContent = "倒數完畢，即將開啟下一局遊戲";
-        resetGame();
-      });
-    }
-  </script>
+  <script src="/app.js"></script>
 </html>
