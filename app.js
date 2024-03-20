@@ -49,7 +49,13 @@ function checkGuess() {
   event.preventDefault();
   let userGuess = parseInt(guessField.value);
   console.log("userGuess: " + userGuess);
-  if (isNaN(userGuess) || userGuess < 0 || userGuess > 100) {
+  if (
+    isNaN(userGuess) ||
+    userGuess < 0 ||
+    userGuess > 100 ||
+    userGuess < lowerBound.textContent ||
+    userGuess > upperBound.textContent
+  ) {
     alert("請輸入有效的數字！");
     return;
   } else {
@@ -68,6 +74,7 @@ function submitGuess() {
     message.textContent = `恭喜你，你猜對了！你這次猜了 ${userGuessTimes}  次哦～`;
     message.style.color = "green";
     guessSubmit.disabled = true;
+    titleTimes.textContent = 0;
     countDownAndReset();
   } else if (userGuess < targetNumber && userGuessTimes < 5) {
     message.textContent = `太小了，再試一次。你已經猜了${userGuessTimes} 次哦～`;
