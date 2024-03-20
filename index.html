@@ -22,8 +22,8 @@
           <span class="title-times">5</span>
           次猜的機會喔！
         </p>
-        <form onsubmit="return checkGuess();">
-          <input type="text" id="guessField" required pattern="[0-9]+" />
+        <form onsubmit="checkGuess(event)">
+          <input type="text" id="guessField" />
           <br />
           <input type="submit" value="猜!" id="guessSubmit" />
           <input type="submit" value="揭曉答案" id="finalAnswer" />
