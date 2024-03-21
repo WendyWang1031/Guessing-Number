@@ -26,8 +26,18 @@
           <input type="text" id="guessField" />
           <br />
           <input type="submit" value="猜!" id="guessSubmit" />
-          <input type="submit" value="揭曉答案" id="finalAnswer" />
-          <input type="submit" value="再玩一次" id="playAgain" />
+          <input
+            type="submit"
+            value="揭曉答案"
+            id="finalAnswer"
+            onsubmit="showFinalMessage(event)"
+          />
+          <input
+            type="submit"
+            value="再玩一次"
+            id="playAgain"
+            onsubmit="resetGame(event)"
+          />
           <p class="message"></p>
           <p class="finalMessage"></p>
           <p class="second"></p>
