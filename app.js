@@ -1,8 +1,6 @@
 //  Random number
 let targetNumber = Math.floor(Math.random() * 100) + 1;
 console.log("answer: " + targetNumber);
-
-//  在全域環境宣告userGuessTimes使用者猜測次數為0
 let userGuessTimes = 0;
 let restTimes = 5;
 //  宣告變數抓取HTML的元素
@@ -18,15 +16,9 @@ const hintRestartSeconds = document.querySelector(".second");
 const titleTimes = document.querySelector(".title-times");
 
 // 為按鈕添加事件監聽器，執行該函式
-guessSubmit.addEventListener("click", checkGuess);
+guessSubmit.addEventListener("click", checkSubmit);
 finalAnswer.addEventListener("click", showFinalMessage);
 playAgain.addEventListener("click", reStartGame);
-
-// 揭曉答案
-function showFinalMessage() {
-  event.preventDefault();
-  finalMessage.textContent = "揭曉答案是：" + targetNumber;
-}
 
 // 重置遊戲
 function resetGame() {
@@ -34,13 +26,16 @@ function resetGame() {
   console.log("answer: " + targetNumber);
   userGuessTimes = 0;
   restTimes = 5;
-  guessSubmit.disabled = false;
-  hintMessage.textContent = "";
+
   lowerBound.textContent = 1;
   upperBound.textContent = 100;
+  hintMessage.textContent = "";
+  titleTimes.textContent = 5;
   finalMessage.textContent = "";
   hintRestartSeconds.textContent = "";
-  titleTimes.textContent = 5;
+
+  guessSubmit.disabled = false;
+  guessInputField.disabled = false;
   guessInputField.value = "";
   guessInputField.focus();
 }
@@ -51,29 +46,33 @@ function reStartGame() {
   resetGame();
 }
 
+// 揭曉答案
+function showFinalMessage() {
+  event.preventDefault();
+  finalMessage.textContent = "揭曉答案是：" + targetNumber;
+  guessSubmit.disabled = true;
+}
+
 // 確認使用者猜測的數字是否符合條件
-function checkGuess() {
+function checkSubmit() {
   //使用preventDefault表單默認提交行為會被阻止，頁面不會被重新加載
   event.preventDefault();
   let userGuess = parseInt(guessInputField.value);
   console.log("userGuess: " + userGuess);
   if (
     isNaN(userGuess) ||
-    userGuess < 0 ||
-    userGuess > 100 ||
     userGuess < lowerBound.textContent ||
     userGuess > upperBound.textContent
   ) {
     alert("請輸入有效的數字！");
     return;
   } else {
-    submitGuess();
+    submitGuess(userGuess);
   }
 }
 
 // 提交猜測數字，頁面有相對應的反饋
-function submitGuess() {
-  let userGuess = parseInt(guessInputField.value);
+function submitGuess(userGuess) {
   restTimes--;
   userGuessTimes++;
   console.log("userGuessTimes: " + userGuessTimes);
@@ -83,6 +82,7 @@ function submitGuess() {
     hintMessage.style.color = "green";
     guessInputField.disabled = true;
     titleTimes.textContent = 0;
+
     countDownAndReset();
   } else if (userGuess < targetNumber && userGuessTimes < 5) {
     hintMessage.textContent = `太小了，再試一次。你已經猜了${userGuessTimes} 次哦～`;
@@ -97,6 +97,7 @@ function submitGuess() {
   } else {
     hintMessage.textContent = `You Failed ! 答案是 ${targetNumber}`;
     hintMessage.style.color = "red";
+
     guessInputField.disabled = true;
     countDownAndReset();
   }
@@ -109,6 +110,9 @@ function submitGuess() {
 //更改瀏覽器的倒數文本
 function display(result) {
   hintRestartSeconds.textContent = result;
+  guessSubmit.disabled = true;
+  playAgain.disabled = true;
+  finalAnswer.disabled = true;
 }
 //倒數計時器放入三個參數，使用IIFE並放入時間計時器函式能被立即執行
 function delayedDisplay(string, seconds, callback) {
